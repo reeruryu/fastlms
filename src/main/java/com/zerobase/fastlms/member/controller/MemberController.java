@@ -37,6 +37,20 @@ public class MemberController {
         return "member/register_complete";
     }
 
+    // 프로토콜://도메인(ip)/news/list.do?쿼리스트링(파라미터)
+    // http://www.naver.com:80/news/list.do?id=111
+    // http://www.naver.com:80/news/list.do?id=222
+    @GetMapping("/member/email-auth")
+    public String emailAuth(Model model, HttpServletRequest request){
+        String uuid = request.getParameter("id");
+        System.out.println(uuid);
+
+        boolean result = memberService.emailAuth(uuid);
+        model.addAttribute("result", result);
+
+        return "member/email_auth";
+    }
+
 }
 
 
