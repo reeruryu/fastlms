@@ -1,8 +1,11 @@
 package com.zerobase.fastlms.member.service;
 
 import com.zerobase.fastlms.member.model.MemberInput;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public interface MemberService {
+public interface MemberService extends UserDetailsService {
 
     boolean register(MemberInput parameter);
 
@@ -12,4 +15,5 @@ public interface MemberService {
      * @return
      */
     boolean emailAuth(String uuid);
+
 }
