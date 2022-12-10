@@ -36,9 +36,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().sameOrigin();
 
         http.authorizeRequests()
-                .antMatchers("/"
-                        , "/member/register"
-                        ,"/member/email-auth"
+                .antMatchers("/",
+                        "/member/register",
+                        "/member/email-auth",
+                        "/member/find/password",
+                        "/member/reset/password"
                 )
                 .permitAll(); //  로그인 없이 위 주소에 대해 권한 허용
 
