@@ -1,5 +1,7 @@
 package com.zerobase.fastlms.member.service.impl;
 
+import com.zerobase.fastlms.admin.dto.MemberDto;
+import com.zerobase.fastlms.admin.mapper.MemberMapper;
 import com.zerobase.fastlms.component.MailComponents;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.member.exception.MemberNotEmailAuthException;
@@ -27,6 +29,8 @@ import java.util.UUID;
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final MailComponents mailComponents;
+
+    private final MemberMapper memberMapper;
 
     /**
      *  회원 가입
@@ -75,6 +79,11 @@ public class MemberServiceImpl implements MemberService {
         }
 
         Member member = optionalMember.get();
+
+        if (member.isEmailAuthYn()) { // 이미 활성화됐다면 그냥 false 던지기
+            return false;
+        }
+
         member.setEmailAuthYn(true);
         member.setEmailAuthDt(LocalDateTime.now());
         memberRepository.save(member);
@@ -158,6 +167,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<MemberDto> list() {
+
+        MemberDto parameter = new MemberDto();
+
+        List<MemberDto> list = memberMapper.selectList(parameter); // 직접적인 쿼리를 이용해서 데이터를 가져옴
+
+        return list;
+//        return memberRepository.findAll(); // jpa
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Optional<Member> optionalMember = memberRepository.findById(username);
@@ -165,15 +185,18 @@ public class MemberServiceImpl implements MemberService {
             throw new UsernameNotFoundException("회원 정보가 존재하지 않습니다.");
         }
 
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-
         Member member = optionalMember.get();
 
         if (!member.isEmailAuthYn()) {
             throw new MemberNotEmailAuthException("이메일 활성화 이후에 로그인을 해주세요.");
         }
+
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+
+        if (member.isAdminYn()) { // 관리자 true면
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        } // ADMIN ROLE 추가
 
         return new User(member.getUserId(), member.getPassword(), grantedAuthorities);
     }

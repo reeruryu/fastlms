@@ -1,23 +1,18 @@
-package com.zerobase.fastlms.member.entity;
+package com.zerobase.fastlms.admin.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Data
-@Entity
-public class Member {
-    @Id
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class MemberDto {
     private String userId;
-
     private String userName;
     private String phone;
     private String password;
@@ -31,4 +26,6 @@ public class Member {
     private LocalDateTime resetPasswordLimitDt;
 
     private boolean adminYn;
+
+
 }

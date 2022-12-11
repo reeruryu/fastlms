@@ -44,6 +44,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 )
                 .permitAll(); //  로그인 없이 위 주소에 대해 권한 허용
 
+        http.authorizeRequests()
+                .antMatchers("/admin/**")
+                .hasAuthority("ROLE_ADMIN");
+
         http.formLogin()
                 .loginPage("/member/login") // 로그인 페이지 설정
                 .failureHandler(getFailureHandler()) // 실패했을 때
@@ -54,6 +58,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/") // 로그아웃이 성공되면 루트로 이동하고
                 .invalidateHttpSession(true); // 세션을 다 초기화해준다
 
+        http.exceptionHandling()
+                .accessDeniedPage("/error/denied");
 
         super.configure(http);
     }
