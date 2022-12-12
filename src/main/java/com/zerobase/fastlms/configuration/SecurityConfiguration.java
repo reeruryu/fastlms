@@ -56,7 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                 .logoutSuccessUrl("/") // 로그아웃이 성공되면 루트로 이동하고
-                .invalidateHttpSession(true); // 세션을 다 초기화해준다
+                .invalidateHttpSession(true); // 세션을 다 초기화 해준다
 
         http.exceptionHandling()
                 .accessDeniedPage("/error/denied");
