@@ -50,15 +50,18 @@
                 </tr>
             </thead>
             <tbody>
-            <tr th:each="x : ${list}">
-                <td th:text="${x.seq}">1</td>
-                <td>
-                    <p th:text="${x.subject}"></p>
-                </td>
-                <td>
-                    <p th:text="${x.regDt}"></p>
-                </td>
-            </tr>
+                <tr th:each="x : ${list}">
+                    <td th:text="${x.seq}">1</td>
+                    <td>
+                        <p>
+                            <a th:href="'edit.do?id=' + ${x.id}"
+                               th:text="${x.subject}">강좌명</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p th:text="${x.regDt}"></p>
+                    </td>
+                </tr>
             </tbody>
         </table>
 
