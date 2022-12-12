@@ -2,7 +2,7 @@ package com.zerobase.fastlms.member.service.impl;
 
 import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.admin.mapper.MemberMapper;
-import com.zerobase.fastlms.admin.model.MemberParm;
+import com.zerobase.fastlms.admin.model.MemberParam;
 import com.zerobase.fastlms.component.MailComponents;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.member.entity.MemberCode;
@@ -173,7 +173,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<MemberDto> list(MemberParm parameter) {
+    public List<MemberDto> list(MemberParam parameter) {
 
         long totalCount = memberMapper.selectListCount(parameter);
 

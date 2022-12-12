@@ -3,7 +3,7 @@ package com.zerobase.fastlms.admin.controller;
 
 import com.zerobase.fastlms.admin.dto.CategoryDto;
 import com.zerobase.fastlms.admin.model.CategoryInput;
-import com.zerobase.fastlms.admin.model.MemberParm;
+import com.zerobase.fastlms.admin.model.MemberParam;
 import com.zerobase.fastlms.admin.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ public class AdminCategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/admin/category/list.do")
-    public String list(Model model, MemberParm parameter) {
+    public String list(Model model, MemberParam parameter) {
 
         List<CategoryDto> list = categoryService.list();
         model.addAttribute("list", list);

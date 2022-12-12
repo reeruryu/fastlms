@@ -3,15 +3,12 @@ package com.zerobase.fastlms.admin.model;
 import lombok.Data;
 
 @Data
-public class MemberParm {
-
+public class CommonParam {
     long pageIndex;
     long pageSize;
 
     String searchType;
     String searchValue;
-
-    String userId;
 
     public long getPageStart() {
         init();
