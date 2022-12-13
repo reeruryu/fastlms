@@ -3,11 +3,9 @@ package com.zerobase.fastlms.course.controller;
 
 import com.zerobase.fastlms.admin.service.CategoryService;
 import com.zerobase.fastlms.course.dto.CourseDto;
-import com.zerobase.fastlms.course.entity.Course;
 import com.zerobase.fastlms.course.model.CourseInput;
 import com.zerobase.fastlms.course.model.CourseParam;
 import com.zerobase.fastlms.course.service.CourseService;
-import com.zerobase.fastlms.util.PageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -93,6 +91,15 @@ public class AdminCourseController extends BaseController {
         } else {
             boolean result = courseService.add(parameter);
         }
+
+        return "redirect:/admin/course/list.do";
+    }
+
+    @PostMapping("/admin/course/delete.do")
+    public String del(Model model, HttpServletRequest request
+            , CourseInput parameter) {
+
+        boolean result = courseService.del(parameter.getIdList());
 
         return "redirect:/admin/course/list.do";
     }
