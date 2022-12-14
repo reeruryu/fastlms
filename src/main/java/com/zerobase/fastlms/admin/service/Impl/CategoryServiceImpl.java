@@ -71,4 +71,6 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> frontList(CategoryDto parameter) {
         return categoryMapper.select(parameter);
     }
+
+
 }
