@@ -1,5 +1,6 @@
 package com.zerobase.fastlms.member.controller;
 
+import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.member.model.MemberInput;
 import com.zerobase.fastlms.member.model.ResetPasswordInput;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
@@ -79,7 +81,12 @@ public class MemberController {
     }
 
     @GetMapping("/member/info")
-    public String memberInfo() {
+    public String memberInfo(Model model, Principal principal) {
+
+        String userId = principal.getName();
+        MemberDto detail = memberService.detail(userId);
+
+        model.addAttribute("detail", detail);
 
         return "member/info";
     }
