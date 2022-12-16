@@ -1,6 +1,10 @@
 package com.zerobase.fastlms.course.dto;
 
+import com.zerobase.fastlms.course.entity.TakeCourse;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +13,9 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Data
 public class TakeCourseDto {
 
@@ -29,6 +36,18 @@ public class TakeCourseDto {
     // 추가 컬럼
     long totalCount;
     long seq;
+
+    public static TakeCourseDto of(TakeCourse takeCourse) {
+        return TakeCourseDto.builder()
+                .id(takeCourse.getId())
+                .courseId(takeCourse.getCourseId())
+                .userId(takeCourse.getUserId())
+                .payPrice(takeCourse.getPayPrice())
+                .status(takeCourse.getStatus())
+                .regDt(takeCourse.getRegDt())
+                .build();
+    }
+
 
     public String getRegDtText() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd MM:mm");
