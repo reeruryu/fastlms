@@ -36,4 +36,7 @@ public class Member implements MemberCode {
 
     private String userStatus; // 이용 가능한 상태, 정지 상태
 
+    private String zipcode; // 우편번호 실행 코드
+    private String addr;
+    private String addrDetail;
 }
