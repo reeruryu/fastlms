@@ -1,24 +1,27 @@
 package com.zerobase.fastlms.main.controller;
 
 import com.zerobase.fastlms.component.MailComponents;
+import com.zerobase.fastlms.util.RequestUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 public class MainController {
 
     private final MailComponents mailComponents;
     @RequestMapping("/")
-    public String index(){
-        /*
-        String email = "yhz102109@naver.com";
-        String subject = "안녕하세요. 제목입니다.";
-        String text = "<p>안녕하세요.</p><p>반갑습니다.</p>";
+    public String index(HttpServletRequest request){
+        String userAgent = RequestUtils.getUserAgent(request);
+        String clientIp = RequestUtils.getClientIP(request);
 
-        mailComponents.sendMail(email, subject, text);
-        */
+        log.info(userAgent);
+        log.info(clientIp);
 
         return "index";
     }

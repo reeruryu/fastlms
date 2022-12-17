@@ -11,6 +11,19 @@
         .detail table th, .detail table td {
             border: solid 1px #000;
         }
+
+        .history table {
+            width: 100%;
+        }
+        .history table th {
+            background: black;
+            color: white;
+        }
+        .history table th, .history table tr {
+            text-align: center;
+        }
+        .history table tr:nth-child(odd) { background-color: silver }
+        .history table tr:nth-child(even) { background-color: #e8e8e8; }
     </style>
 </head>
 <body>
@@ -93,8 +106,36 @@
         </table>
 
         <div>
-            <a href=""></a>
+            <a href="list.do">목록</a>
         </div>
+        <br/>
+    </div>
+
+    <div class="history">
+        <table>
+            <thead>
+                <th>NO</th>
+                <th>로그인 일자</th>
+                <th>접속 IP</th>
+                <th>접속 UserAgent</th>
+            </thead>
+            <tbody>
+                <tr th:each="x : ${loginHistory}">
+                    <td>
+                        <p th:text="${x.id}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${x.loginDtText}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${x.ip}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${x.userAgent}"></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

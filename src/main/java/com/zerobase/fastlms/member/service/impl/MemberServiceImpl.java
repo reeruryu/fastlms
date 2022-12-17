@@ -5,15 +5,19 @@ import com.zerobase.fastlms.admin.mapper.MemberMapper;
 import com.zerobase.fastlms.admin.model.MemberParam;
 import com.zerobase.fastlms.component.MailComponents;
 import com.zerobase.fastlms.course.model.ServiceResult;
+import com.zerobase.fastlms.member.entity.LoginHistory;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.member.entity.MemberCode;
 import com.zerobase.fastlms.member.exception.MemberNotEmailAuthException;
 import com.zerobase.fastlms.member.exception.MemberStopUserException;
+import com.zerobase.fastlms.member.model.LoginHistoryDto;
 import com.zerobase.fastlms.member.model.MemberInput;
 import com.zerobase.fastlms.member.model.ResetPasswordInput;
+import com.zerobase.fastlms.member.repository.LoginHistoryRepository;
 import com.zerobase.fastlms.member.repository.MemberRepository;
 import com.zerobase.fastlms.member.service.MemberService;
 import com.zerobase.fastlms.util.PasswordUtils;
+import com.zerobase.fastlms.util.RequestUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,6 +28,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +39,7 @@ import java.util.UUID;
 @Service
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
+    private final LoginHistoryRepository loginHistoryRepository;
     private final MailComponents mailComponents;
 
     private final MemberMapper memberMapper;
@@ -319,6 +325,39 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
         return new ServiceResult();
+    }
+
+    @Override
+    public boolean insertLoginHistory(String userId, String ip, String userAgent) {
+
+        // userId 있는지 체크
+        Optional<Member> optionalMember = memberRepository.findById(userId);
+        if (!optionalMember.isPresent()) {
+            return false;
+        }
+
+        LoginHistory loginHistory = LoginHistory.builder()
+                .userId(userId)
+                .loginDt(LocalDateTime.now())
+                .ip(ip)
+                .userAgent(userAgent)
+                .build();
+        loginHistoryRepository.save(loginHistory);
+
+        return true;
+    }
+
+    @Override
+    public List<LoginHistoryDto> loadLoginHistory(String userId) {
+        Optional<List<LoginHistory>> optionalLoginHistoryList =
+                loginHistoryRepository.findAllByUserIdOrderByLoginDtDesc(userId);
+
+        if (!optionalLoginHistoryList.isPresent()) {
+            return null;
+        }
+
+        List<LoginHistory> loginHistoryList = optionalLoginHistoryList.get();
+        return LoginHistoryDto.of(loginHistoryList);
     }
 
     @Override
