@@ -11,4 +11,6 @@ import java.util.Optional;
 @Repository
 public interface LoginHistoryRepository extends JpaRepository<LoginHistory, Long> {
     Optional<List<LoginHistory>> findAllByUserIdOrderByLoginDtDesc(String userId);
+    Optional<LoginHistory> findFirstByUserIdOrderByLoginDtDesc(String userId);
+
 }

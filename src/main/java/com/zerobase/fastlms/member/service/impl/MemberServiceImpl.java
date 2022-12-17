@@ -189,6 +189,12 @@ public class MemberServiceImpl implements MemberService {
         if (!CollectionUtils.isEmpty(list)) {
             int i = 0;
             for (MemberDto x: list) {
+                Optional<LoginHistory> optionalLoginHistory
+                        = loginHistoryRepository
+                        .findFirstByUserIdOrderByLoginDtDesc(x.getUserId());
+                if (optionalLoginHistory.isPresent()) {
+                    x.setLoginDt(optionalLoginHistory.get().getLoginDt());
+                }
                 x.setTotalCount(totalCount);
                 x.setSeq(totalCount - parameter.getPageStart() - i);
                 i++;
@@ -356,8 +362,19 @@ public class MemberServiceImpl implements MemberService {
             return null;
         }
 
-        List<LoginHistory> loginHistoryList = optionalLoginHistoryList.get();
-        return LoginHistoryDto.of(loginHistoryList);
+        List<LoginHistory> list = optionalLoginHistoryList.get();
+
+        List<LoginHistoryDto> loginHistoryList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(list)) {
+            long i = list.size();
+            for (LoginHistory x: list) {
+                LoginHistoryDto loginHistoryDto = LoginHistoryDto.of(x);
+                loginHistoryDto.setId(i--);
+                loginHistoryList.add(loginHistoryDto);
+            }
+        }
+
+        return loginHistoryList;
     }
 
     @Override

@@ -35,6 +35,8 @@ public class MemberDto {
     private String addr;
     private String addrDetail;
 
+    private LocalDateTime loginDt;
+
     //추가컬럼
     long totalCount;
     long seq;
@@ -73,4 +75,8 @@ public class MemberDto {
         return udDt != null ? udDt.format(formatter) : "";
     }
 
+    public String getLoginDtText() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd MM:mm:ss");
+        return loginDt != null ? loginDt.format(formatter) : "로그인 내역이 없습니다.";
+    }
 }

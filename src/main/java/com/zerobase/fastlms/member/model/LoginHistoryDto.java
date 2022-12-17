@@ -26,34 +26,14 @@ public class LoginHistoryDto {
     private String ip;
     private String userAgent;
 
-    public static List<LoginHistoryDto> of(List<LoginHistory> loginHistories) {
-        if (loginHistories != null) {
-            List<LoginHistoryDto> loginHistoryList = new ArrayList<>();
-            int size = loginHistories.size();
-            for (LoginHistory x: loginHistories) {
-                loginHistoryList.add(
-                        LoginHistoryDto.builder()
-                                .id(size--)
-                                .userId(x.getUserId())
-                                .loginDt(x.getLoginDt())
-                                .ip(x.getIp())
-                                .userAgent(x.getUserAgent())
-                                .build());
-            }
-            return loginHistoryList;
-        }
-
-        return null;
-    }
-
-    /*public static LoginHistoryDto of(LoginHistory loginHistory) {
+    public static LoginHistoryDto of(LoginHistory loginHistory) {
         return LoginHistoryDto.builder()
                 .userId(loginHistory.getUserId())
                 .loginDt(loginHistory.getLoginDt())
                 .ip(loginHistory.getIp())
                 .userAgent(loginHistory.getUserAgent())
                 .build();
-    }*/
+    }
 
     public String getLoginDtText() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd MM:mm");
