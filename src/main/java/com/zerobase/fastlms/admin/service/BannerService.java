@@ -35,4 +35,10 @@ public interface BannerService {
      * 강좌 내용 삭제
      */
     boolean del(String idList);
+
+    /**
+     * 프론트 배너 목록
+     */
+    List<BannerDto> frontList();
+
 }

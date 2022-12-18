@@ -106,4 +106,9 @@ public class BannerServiceImpl implements BannerService {
 
         return true;
     }
+
+    @Override
+    public List<BannerDto> frontList() {
+        return bannerMapper.selectFrontList();
+    }
 }

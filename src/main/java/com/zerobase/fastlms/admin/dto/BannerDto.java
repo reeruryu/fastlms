@@ -50,4 +50,8 @@ public class BannerDto {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
         return regDt != null ? regDt.format(formatter) : "";
     }
+
+    /*public String getTargetValue() {
+        return target.getValue();
+    }*/
 }
