@@ -20,7 +20,7 @@ public class AdminCategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/admin/category/list.do")
-    public String list(Model model, MemberParam parameter) {
+    public String list(Model model) {
 
         List<CategoryDto> list = categoryService.list();
         model.addAttribute("list", list);
