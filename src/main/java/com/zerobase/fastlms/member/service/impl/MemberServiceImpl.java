@@ -17,7 +17,6 @@ import com.zerobase.fastlms.member.repository.LoginHistoryRepository;
 import com.zerobase.fastlms.member.repository.MemberRepository;
 import com.zerobase.fastlms.member.service.MemberService;
 import com.zerobase.fastlms.util.PasswordUtils;
-import com.zerobase.fastlms.util.RequestUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,7 +27,6 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -355,14 +353,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<LoginHistoryDto> loadLoginHistory(String userId) {
-        Optional<List<LoginHistory>> optionalLoginHistoryList =
+        List<LoginHistory> list =
                 loginHistoryRepository.findAllByUserIdOrderByLoginDtDesc(userId);
-
-        if (!optionalLoginHistoryList.isPresent()) {
-            return null;
-        }
-
-        List<LoginHistory> list = optionalLoginHistoryList.get();
 
         List<LoginHistoryDto> loginHistoryList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(list)) {
@@ -372,9 +364,10 @@ public class MemberServiceImpl implements MemberService {
                 loginHistoryDto.setId(i--);
                 loginHistoryList.add(loginHistoryDto);
             }
+            return loginHistoryList;
         }
 
-        return loginHistoryList;
+        return null;
     }
 
     @Override
