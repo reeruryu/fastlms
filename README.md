@@ -13,6 +13,7 @@
 - MyBatis
 - Spring Security
 - Java Mail Sender
+- thymeleaf
 
 
 
