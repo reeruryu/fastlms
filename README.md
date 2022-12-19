@@ -1,6 +1,6 @@
 # fastlms
 
-계좌 시스템
+학습 관리 시스템 (Learning Management System)
 
 
 
